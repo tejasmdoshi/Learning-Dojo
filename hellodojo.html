@@ -11,30 +11,35 @@
         // Instead of using data-dojo-config, we're creating a dojoConfig
         // object *before* we load dojo.js; they're functionally identical,
         // it's just easier to read this approach with a larger configuration.
-        var dojoConfig = {
-            async: true,
-            // This code registers the correct location of the "demo"
-            // package so we can load Dojo from the CDN whilst still
-            // being able to load local modules
-            packages: [{
-                name: "demo",
-                location: location.pathname.replace(/\/[^/]*$/, '') + '/demo'
-            }]
+       var dojoConfig = {
+        async: true,
+        baseUrl: '.',
+        packages: [
+            'dojo',
+            'dijit',
+            'dojox',
+            'demo'
+            ]
         };
+
     </script>
     <!-- load Dojo -->
-    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"></script>
+    <script src="dojo/dojo.js"></script>
 
     <script>
-        require([
-            'demo/myModule',
-            'dojo/domReady'
-        ], function (myModule) {
-            myModule.setText('greeting', 'Hello Dojo!');
+       require([
+            'dojo/dom',
+            'dojo/fx',
+            'dojo/domReady!'
+        ],function(dom, fx){
+            var greetingNode = dom.byId('greeting');
+            greeting.innerHTML += ' from dojo!';
 
-            setTimeout(function () {
-                myModule.restoreText('greeting');
-            }, 3000);
+            fx.slideTo({
+                node : greeting,
+                top : 100,
+                left : 200
+            }).play();
         });
     </script>
 </body>
